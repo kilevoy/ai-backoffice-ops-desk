@@ -1,9 +1,17 @@
 import { useMemo, useState } from 'react';
 import { Area, AreaChart, Bar, BarChart, CartesianGrid, Cell, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import { AlertTriangle, Bot, BriefcaseBusiness, CheckCircle2, Clock3, FileWarning, LayoutDashboard, ListChecks, MessageSquareText, ShieldCheck, Sparkles } from 'lucide-react';
+import { AlertTriangle, Bot, BriefcaseBusiness, CheckCircle2, Clock3, FileWarning, LayoutDashboard, ListChecks, MessageSquareText, Paperclip, ShieldCheck, Sparkles } from 'lucide-react';
 
 type ScenarioId = 'contract' | 'payment' | 'nda';
 type SectionId = 'overview' | 'intake' | 'parser' | 'audit' | 'jira' | 'sla' | 'summary';
+
+type Attachment = {
+  fileName: string;
+  status: string;
+  extractedText: string;
+  pages: string;
+  documentType: string;
+};
 
 type Scenario = {
   id: ScenarioId;
@@ -22,6 +30,7 @@ type Scenario = {
   missingFields: string[];
   riskFactors: string[];
   nextAction: string;
+  attachment: Attachment;
 };
 
 const scenarios: Scenario[] = [
@@ -44,6 +53,13 @@ const scenarios: Scenario[] = [
     missingFields: ['Контрагент', 'Бизнес-владелец', 'Сторона пользователя'],
     riskFactors: ['Штрафы', 'Постоплата', 'Короткий срок', 'Сумма > 1 млн ₽'],
     nextAction: 'Запросить недостающие данные и запустить риск-аудит договора',
+    attachment: {
+      fileName: 'dogovor-podryada-demo.docx',
+      status: 'Файл получен в Slack-thread',
+      extractedText: 'Да, текст извлечён',
+      pages: '8 страниц',
+      documentType: 'Договор подряда',
+    },
   },
   {
     id: 'payment',
@@ -51,7 +67,7 @@ const scenarios: Scenario[] = [
     department: 'Финансы',
     requestType: 'Согласование оплаты',
     employeeMessage:
-      '/finance Нужно срочно оплатить счет поставщика за сервисы. Сумма 480 000 ₽, желательно сегодня, договор был ранее.',
+      '/finance Нужно срочно оплатить счет поставщика за сервисы. Сумма 480 000 ₽, желательно сегодня, договор был ранее. Счёт приложил.',
     botResponse:
       'Заявка принята. Тип: финансовое согласование оплаты. Приоритет: высокий. Не хватает: номер счета, бюджетная статья, подтверждение договора и ответственный согласующий.',
     requester: 'Илья Морозов',
@@ -64,6 +80,13 @@ const scenarios: Scenario[] = [
     missingFields: ['Номер счета', 'Бюджетная статья', 'Согласующий', 'Ссылка на договор'],
     riskFactors: ['Срочная оплата', 'Нет номера счета', 'Нет бюджетной статьи'],
     nextAction: 'Создать задачу на проверку основания оплаты и запросить счет',
+    attachment: {
+      fileName: 'schet-na-oplatu-demo.pdf',
+      status: 'Файл получен в Slack-thread',
+      extractedText: 'Да, реквизиты извлечены',
+      pages: '2 страницы',
+      documentType: 'Счёт на оплату',
+    },
   },
   {
     id: 'nda',
@@ -84,6 +107,13 @@ const scenarios: Scenario[] = [
     missingFields: ['Название контрагента', 'Цель переговоров', 'Срок действия NDA'],
     riskFactors: ['Короткий срок', 'Конфиденциальная информация', 'Нет цели раскрытия'],
     nextAction: 'Передать в юридическую проверку по ускоренному NDA-чек-листу',
+    attachment: {
+      fileName: 'nda-demo.pdf',
+      status: 'Файл получен в Slack-thread',
+      extractedText: 'Да, текст извлечён',
+      pages: '5 страниц',
+      documentType: 'NDA',
+    },
   },
 ];
 
@@ -156,6 +186,19 @@ function Badge({ children, tone = 'neutral' }: { children: React.ReactNode; tone
 
 function Card({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   return <section className={`card ${className}`}>{children}</section>;
+}
+
+function AttachedDocument({ attachment }: { attachment: Attachment }) {
+  return (
+    <div className="attachment-panel" aria-label={`Прикреплённый документ: ${attachment.fileName}`}>
+      <div className="attachment-icon" aria-hidden="true"><Paperclip size={18} /></div>
+      <div>
+        <span>Прикреплённый документ</span>
+        <strong>{attachment.fileName}</strong>
+        <p>{attachment.status} · {attachment.extractedText} · {attachment.pages}</p>
+      </div>
+    </div>
+  );
 }
 
 function App() {
@@ -247,9 +290,9 @@ function Overview() {
       </div>
       <Card className="wide-card">
         <h2>Что показывает MVP</h2>
-        <p>Проект демонстрирует не просто чат-бота, а управляемый процесс: от входящего сообщения до Jira-задачи, SLA-контроля, риск-аудита и ежедневной сводки для руководителя.</p>
+        <p>Проект демонстрирует не просто чат-бота, а управляемый процесс: сотрудник отправляет заявку через Slack-бота или intake-канал, прикрепляет документ, а система превращает это в Jira-задачу, риск-аудит, SLA-контроль и ежедневную сводку для руководителя.</p>
         <div className="flow-line">
-          {['Заявка в Slack', 'AI-разбор', 'Недостающие данные', 'Риск-аудит', 'Jira-задача', 'SLA', 'Сводка'].map((step) => <span key={step}>{step}</span>)}
+          {['Заявка в Slack', 'Файл договора', 'AI-разбор', 'Недостающие данные', 'Риск-аудит', 'Jira-задача', 'SLA', 'Сводка'].map((step) => <span key={step}>{step}</span>)}
         </div>
       </Card>
     </div>
@@ -261,6 +304,7 @@ function Intake({ scenario, scenarioId, setScenarioId }: { scenario: Scenario; s
     <div className="two-col">
       <Card>
         <h2>Симулятор приёма заявок в Slack</h2>
+        <p className="muted">Сотрудник отправляет заявку через команду /legal или /finance и прикрепляет документ прямо к сообщению или Slack-thread.</p>
         <div className="scenario-tabs">
           {scenarios.map((item) => <button key={item.id} className={scenarioId === item.id ? 'tab active' : 'tab'} onClick={() => setScenarioId(item.id)}>{item.title}</button>)}
         </div>
@@ -268,6 +312,7 @@ function Intake({ scenario, scenarioId, setScenarioId }: { scenario: Scenario; s
           <div className="chat-message employee"><strong>{scenario.requester}</strong><p>{scenario.employeeMessage}</p></div>
           <div className="chat-message bot"><strong>Ops Desk Bot</strong><p>{scenario.botResponse}</p></div>
         </div>
+        <AttachedDocument attachment={scenario.attachment} />
       </Card>
       <Card>
         <h2>Что делает бот</h2>
@@ -291,11 +336,15 @@ function Parser({ scenario }: { scenario: Scenario }) {
     ['Инициатор', scenario.requester],
     ['Контрагент', scenario.counterparty],
     ['SLA', scenario.sla],
+    ['Документ', scenario.attachment.fileName],
+    ['Тип документа', scenario.attachment.documentType],
+    ['Извлечение текста', scenario.attachment.extractedText],
+    ['Объём', scenario.attachment.pages],
   ];
   return (
     <Card>
       <h2>AI-разбор заявки</h2>
-      <p className="muted">AI превращает свободный текст в структурированную карточку заявки.</p>
+      <p className="muted">AI превращает свободный текст и прикреплённый документ в структурированную карточку заявки.</p>
       <div className="parser-table">{rows.map(([key, value]) => <div key={key}><span>{key}</span><strong>{value}</strong></div>)}</div>
       <div className="split-block">
         <div><h3>Недостающие данные</h3><ul className="check-list">{scenario.missingFields.map((field) => <li key={field}>{field}</li>)}</ul></div>
@@ -306,17 +355,25 @@ function Parser({ scenario }: { scenario: Scenario }) {
 }
 
 function Audit() {
+  const contractAttachment = scenarios[0].attachment;
+
   return (
     <div className="two-col">
       <Card>
         <h2>Риск-аудит договора</h2>
         <div className="risk-score"><span>{audit.score}/10</span><p>Высокий риск</p></div>
         <div className="parser-table compact"><div><span>Тип договора</span><strong>{audit.contractType}</strong></div><div><span>Сторона пользователя</span><strong>{audit.userSide}</strong></div><div><span>Рекомендация</span><strong>{audit.recommendation}</strong></div></div>
+        <h3>Источник анализа</h3>
+        <div className="source-panel">
+          <span>Сообщение инициатора</span>
+          <span>Прикреплённый файл: {contractAttachment.fileName}</span>
+          <span>{contractAttachment.extractedText}</span>
+        </div>
         <ul className="risk-list">{audit.risks.map((risk) => <li key={risk}>{risk}</li>)}</ul>
       </Card>
       <Card>
         <h2>Предпросмотр Markdown-отчёта</h2>
-        <pre className="report-preview">{`# Риск-аудит договора\n\nСторона: Подрядчик\nРиск: 9/10\n\n## Рекомендация\nНе подписывать без протокола разногласий.\n\n## Критические риски\n- платежный график требует уточнения;\n- штрафы и ответственность не ограничены;\n- порядок приемки работ не детализирован;\n- есть риск блокировки оплаты.\n\n## Следующее действие\nСоздать Jira-задачу и запросить недостающие данные у инициатора.`}</pre>
+        <pre className="report-preview">{`# Риск-аудит договора\n\nИсточник: сообщение инициатора + dogovor-podryada-demo.docx\nСторона: Подрядчик\nРиск: 9/10\n\n## Рекомендация\nНе подписывать без протокола разногласий.\n\n## Критические риски\n- платежный график требует уточнения;\n- штрафы и ответственность не ограничены;\n- порядок приемки работ не детализирован;\n- есть риск блокировки оплаты.\n\n## Следующее действие\nСоздать Jira-задачу и запросить недостающие данные у инициатора.`}</pre>
       </Card>
     </div>
   );
