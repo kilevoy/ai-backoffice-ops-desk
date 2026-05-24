@@ -1,0 +1,26 @@
+[
+  {
+    "id": "REQ-001",
+    "department": "Legal",
+    "type": "Contract review",
+    "message": "Нужно проверить договор с подрядчиком. Сумма 1 200 000 ₽. Срок подписания до пятницы. Есть штрафы и постоплата.",
+    "priority": "High",
+    "status": "Waiting for requester"
+  },
+  {
+    "id": "REQ-002",
+    "department": "Finance",
+    "type": "Payment approval",
+    "message": "Нужно срочно оплатить счет поставщика за сервисы. Сумма 480 000 ₽.",
+    "priority": "High",
+    "status": "Waiting for finance approval"
+  },
+  {
+    "id": "REQ-003",
+    "department": "Legal",
+    "type": "NDA review",
+    "message": "Проверьте NDA перед переговорами с потенциальным партнером. Встреча завтра утром.",
+    "priority": "Medium",
+    "status": "In legal review"
+  }
+]
