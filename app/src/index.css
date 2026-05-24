@@ -36,7 +36,7 @@ button { font: inherit; }
 .nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.07); color: #f9fafb; border-color: rgba(255,255,255,0.07); }
 .nav-item:hover svg, .nav-item.active svg { color: #cbd5e1; }
 .sidebar-note { margin-top: auto; color: #b7c0cc; font-size: 13px; background: rgba(255,255,255,0.045); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 14px; }
-.main { flex: 1; padding: 28px; max-width: 1440px; margin: 0 auto; }
+.main { flex: 1; min-width: 0; width: 100%; padding: 28px; max-width: 1440px; margin: 0 auto; }
 .hero { display: flex; justify-content: space-between; gap: 24px; align-items: flex-start; margin-bottom: 28px; }
 .eyebrow { margin: 0 0 8px; color: var(--accent); font-weight: 600; font-size: 12px; letter-spacing: .03em; text-transform: none; }
 h1 { margin: 0; font-size: clamp(30px, 4vw, 46px); line-height: 1.08; letter-spacing: 0; font-weight: 700; }
@@ -110,7 +110,8 @@ p { line-height: 1.6; }
 .filter-button { border: 1px solid var(--border); background: #fff; color: #475569; border-radius: 8px; padding: 7px 10px; cursor: pointer; font-weight: 550; }
 .filter-button:hover, .filter-button.active { background: #eef4fb; color: var(--accent); border-color: #b9cbe0; }
 .request-table { display: grid; gap: 6px; min-width: 0; }
-.request-row { display: grid; grid-template-columns: minmax(220px, 1.45fr) minmax(120px, .8fr) minmax(140px, .9fr) minmax(130px, .8fr) minmax(100px, .65fr) minmax(120px, .85fr) minmax(150px, 1fr) minmax(220px, 1.4fr); gap: 10px; align-items: center; padding: 10px 12px; border: 1px solid var(--border-soft); border-radius: 10px; background: #fff; font-size: 14px; }
+.request-row { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, .8fr) minmax(0, .9fr) minmax(0, .8fr) minmax(0, .65fr) minmax(0, .85fr) minmax(0, 1fr) minmax(0, 1.4fr); gap: 10px; align-items: center; padding: 10px 12px; border: 1px solid var(--border-soft); border-radius: 10px; background: #fff; font-size: 14px; }
+.request-row > span, .request-row > div { min-width: 0; overflow-wrap: anywhere; }
 .request-row-head { background: var(--surface-muted); color: var(--text-muted); font-size: 12px; font-weight: 600; text-transform: none; letter-spacing: 0; }
 .request-task { display: grid; gap: 3px; }
 .request-task strong { color: var(--text); font-weight: 650; }
