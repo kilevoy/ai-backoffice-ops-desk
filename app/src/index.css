@@ -35,6 +35,10 @@ p { line-height: 1.6; }
 .kpi-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; }
 .kpi-head { display: flex; align-items: center; gap: 8px; color: #64748b; font-size: 13px; }
 .kpi-value { font-size: 38px; font-weight: 800; margin-top: 10px; letter-spacing: -0.04em; }
+.kpi-card { text-align: left; min-height: 180px; }
+.clickable-kpi { width: 100%; cursor: pointer; transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease; }
+.clickable-kpi:hover { transform: translateY(-2px); border-color: rgba(91, 124, 250, 0.55); box-shadow: 0 24px 60px rgba(37, 82, 185, 0.14); }
+.open-hint { display: inline-flex; margin-top: 14px; color: #2552b9; font-size: 13px; font-weight: 900; }
 .muted { color: #64748b; margin: 0; }
 .wide-card { min-height: 210px; }
 .flow-line { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
@@ -79,8 +83,24 @@ p { line-height: 1.6; }
 .jira-header { display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; border-bottom: 1px solid #e2e8f0; padding-bottom: 18px; margin-bottom: 18px; }
 .jira-header p { margin: 6px 0 0; color: #64748b; }
 .charts-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.drilldown-actions { grid-column: 1 / -1; display: flex; justify-content: space-between; gap: 18px; align-items: flex-start; min-height: auto; }
+.action-row { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
 .summary-box { display: grid; gap: 14px; background: #f8fafc; border: 1px solid #dbe4ef; border-radius: 22px; padding: 22px; }
 .summary-box p { margin: 0; }
+.register-cta { margin-top: 12px; }
+.register-card { overflow: hidden; }
+.register-header { display: flex; justify-content: space-between; gap: 18px; align-items: flex-start; margin-bottom: 18px; }
+.filter-bar { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px; margin-bottom: 18px; border: 1px solid #dbe4ef; border-radius: 18px; background: #f8fafc; }
+.filter-button { border: 1px solid #dbe4ef; background: #fff; color: #475569; border-radius: 999px; padding: 9px 12px; cursor: pointer; font-weight: 800; }
+.filter-button:hover, .filter-button.active { background: #172033; color: #fff; border-color: #172033; }
+.request-table { display: grid; gap: 10px; min-width: 0; }
+.request-row { display: grid; grid-template-columns: minmax(220px, 1.45fr) minmax(120px, .8fr) minmax(140px, .9fr) minmax(130px, .8fr) minmax(100px, .65fr) minmax(120px, .85fr) minmax(150px, 1fr) minmax(220px, 1.4fr); gap: 10px; align-items: center; padding: 14px; border: 1px solid #e2e8f0; border-radius: 18px; background: #fff; }
+.request-row-head { background: #f8fafc; color: #64748b; font-size: 12px; font-weight: 900; text-transform: uppercase; letter-spacing: .06em; }
+.request-task { display: grid; gap: 4px; }
+.request-task strong { color: #172033; }
+.request-task span { color: #334155; }
+.request-row small { display: block; margin-top: 4px; color: #64748b; line-height: 1.4; }
+.document-cell { overflow-wrap: anywhere; color: #2552b9; font-weight: 800; }
 
 @media (max-width: 1100px) {
   .app-shell { flex-direction: column; }
@@ -88,12 +108,20 @@ p { line-height: 1.6; }
   .nav { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .kpi-grid, .two-col, .charts-grid { grid-template-columns: 1fr; }
   .hero { flex-direction: column; }
+  .drilldown-actions, .register-header { flex-direction: column; }
+  .action-row { justify-content: flex-start; }
+  .request-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .request-row-head { display: none; }
 }
 
 @media (max-width: 700px) {
   .main { padding: 18px; }
   .parser-table, .parser-table.compact, .split-block, .two-columns { grid-template-columns: 1fr; }
   .nav { grid-template-columns: 1fr; }
+  .filter-bar, .action-row { display: grid; grid-template-columns: 1fr; }
+  .filter-button, .action-row .tab, .register-cta { width: 100%; }
+  .request-row { grid-template-columns: 1fr; align-items: start; }
+  .request-row > span, .request-row > div { min-width: 0; }
 }
 
 .skip-link {
@@ -116,7 +144,9 @@ p { line-height: 1.6; }
 button:focus-visible,
 a:focus-visible,
 .nav-item:focus-visible,
-.tab:focus-visible {
+.tab:focus-visible,
+.filter-button:focus-visible,
+.clickable-kpi:focus-visible {
   outline: 3px solid #5b7cfa;
   outline-offset: 3px;
 }
