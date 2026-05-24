@@ -1,68 +1,68 @@
 # AI Backoffice Ops Desk
 
-> Portfolio MVP for Legal/Finance automation: Slack intake simulator, AI request parsing, contract risk audit, mock Jira delivery, SLA tracking and daily summary.
+> Портфолио-MVP для автоматизации Legal/Finance процессов: симулятор приёма заявок из Slack, AI-разбор заявки, риск-аудит договора, mock Jira-задача, SLA-контроль и дневная управленческая сводка.
 
-**Live demo:** `https://kilevoy.github.io/ai-backoffice-ops-desk/`  
-**Status:** MVP / static demo  
-**No real data:** all requests, contracts, names and tasks are synthetic.
+**Демо:** `https://kilevoy.github.io/ai-backoffice-ops-desk/`  
+**Статус:** MVP / статическое демо  
+**Данные:** все заявки, договоры, имена и задачи являются синтетическими.
 
 ---
 
-## Business problem
+## Бизнес-проблема
 
-Legal and Finance teams often receive internal requests through scattered channels: chats, email, direct messages and spreadsheets. Requests are incomplete, deadlines are unclear, ownership is not visible, and task status depends on manual follow-up.
+Юридические и финансовые команды часто получают внутренние заявки через разные каналы: чаты, почту, личные сообщения и таблицы. Заявки приходят неполными, сроки неочевидны, владелец задачи не назначен, а статус зависит от ручных уточнений.
 
-This demo shows how a chaotic message from an employee can be transformed into a structured operational workflow.
+Проект показывает, как хаотичное сообщение сотрудника можно превратить в структурированный операционный процесс.
 
 ```text
-Slack request → AI classification → missing data check → contract risk audit → Jira task → SLA tracking → daily summary
+Заявка в Slack → AI-классификация → проверка недостающих данных → риск-аудит договора → Jira-задача → SLA-контроль → дневная сводка
 ```
 
 ---
 
-## Solution
+## Решение
 
-AI Backoffice Ops Desk demonstrates a lightweight operating layer for backoffice teams:
+AI Backoffice Ops Desk демонстрирует лёгкий операционный слой для backoffice-команд:
 
-- receives Legal/Finance requests from a Slack-like interface;
-- classifies request type, priority and risk factors;
-- detects missing data before work starts;
-- runs a contract risk-audit scenario;
-- creates a mock Jira issue with checklist and SLA;
-- shows operational metrics and bottlenecks;
-- generates a daily manager summary.
+- принимает юридические и финансовые заявки через Slack-подобный интерфейс;
+- определяет тип заявки, приоритет и факторы риска;
+- выявляет недостающие данные до старта работы;
+- показывает сценарий риск-аудита договора;
+- формирует mock Jira-задачу с чек-листом и SLA;
+- показывает операционные метрики и узкие места;
+- генерирует дневную сводку для руководителя.
 
-The MVP is intentionally static and public-safe. It can later be connected to real Slack, Jira, Google Sheets and AI APIs through n8n, Google Apps Script or a custom backend.
-
----
-
-## Features
-
-- SaaS-style React dashboard
-- Slack Intake Simulator with three scenarios
-- AI Request Parser card
-- Contract Risk Audit preview
-- Mock Jira Task Preview
-- SLA Dashboard with charts
-- Daily AI Summary
-- Documentation for production integration
-- Optional n8n workflow blueprints
+MVP специально сделан статическим и безопасным для публичного портфолио. В реальной среде этот процесс можно подключить к Slack, Jira, Google Sheets и AI API через n8n, Google Apps Script или собственный backend.
 
 ---
 
-## Tech stack
+## Возможности
 
-- React
-- TypeScript
-- Vite
-- Recharts
-- CSS modules/global CSS
-- GitHub Pages
-- Optional production layer: n8n / Apps Script / custom backend
+- современный React-dashboard в SaaS-стиле;
+- симулятор приёма заявок из Slack с тремя сценариями;
+- карточка AI-разбора заявки;
+- предпросмотр риск-аудита договора;
+- mock Jira-задача с чек-листом;
+- SLA-панель с графиками;
+- дневная AI-сводка для руководителя;
+- документация для production-интеграции;
+- n8n как опциональный слой реализации.
 
 ---
 
-## Run locally
+## Технологии
+
+- React;
+- TypeScript;
+- Vite;
+- Recharts;
+- CSS / системный стек шрифтов с поддержкой кириллицы;
+- GitHub Pages;
+- опциональный production-слой: n8n / Apps Script / собственный backend.
+
+---
+
+## Локальный запуск
 
 ```bash
 cd app
@@ -70,7 +70,7 @@ npm install
 npm run dev
 ```
 
-Build:
+Сборка:
 
 ```bash
 cd app
@@ -79,11 +79,11 @@ npm run build
 
 ---
 
-## Deploy
+## Деплой
 
-The repository contains a GitHub Actions workflow for GitHub Pages deployment from `app/dist`.
+В репозитории настроен GitHub Actions workflow для публикации `app/dist` на GitHub Pages.
 
-After the first successful run, enable Pages in repository settings if needed:
+Если Pages ещё не включён, нужно выбрать источник:
 
 ```text
 Settings → Pages → Source: GitHub Actions
@@ -91,47 +91,46 @@ Settings → Pages → Source: GitHub Actions
 
 ---
 
-## Documentation
+## Документация
 
-- [Business case](./docs/business-case.md)
-- [Process map](./docs/process-map.md)
-- [3-minute demo script](./docs/demo-script.md)
-- [Slack/Jira integration plan](./docs/slack-jira-integration.md)
-- [Security notes](./docs/security-notes.md)
+- [Бизнес-кейс](./docs/business-case.md)
+- [Карта процесса](./docs/process-map.md)
+- [Сценарий 3-минутной демонстрации](./docs/demo-script.md)
+- [План интеграции Slack/Jira](./docs/slack-jira-integration.md)
+- [Безопасность](./docs/security-notes.md)
 
 ---
 
-## n8n note
+## Заметка про n8n
 
-n8n is **not required** for the public static demo. It is presented as an optional implementation layer for production-style automation:
+n8n **не требуется** для публичного статического демо. Он описан как один из возможных вариантов production-автоматизации.
 
 ```text
-Slack Trigger → Normalize Request → AI Classification → Jira Create Issue → Google Sheets Register → Slack Reply
+Slack Trigger → Нормализация заявки → AI-классификация → Создание Jira-задачи → Операционный реестр → Ответ инициатору
 ```
 
-Blueprints are stored in [`workflows/`](./workflows/).
+---
+
+## Безопасность
+
+- нет реальных договоров;
+- нет реальных данных компаний;
+- нет API-ключей и токенов;
+- нет персональных данных;
+- все примеры синтетические;
+- AI-анализ договора — предварительный помощник для triage, а не юридическое заключение.
 
 ---
 
-## Security notes
+## Релевантность для вакансий
 
-- no real documents;
-- no real company data;
-- no API keys or tokens;
-- no personal data;
-- all examples are synthetic;
-- AI legal analysis is a preliminary assistant output, not a legal opinion.
-
----
-
-## Role relevance
-
-This case is designed for roles such as:
+Кейс подходит для демонстрации на роли:
 
 - Legal Operations Specialist;
 - Finance Automation Manager;
 - Project Manager for Internal Automation;
 - AI/Low-code Automation Manager;
-- Business Process Automation Lead.
+- Business Process Automation Lead;
+- менеджер проектов автоматизации внутренних процессов.
 
-It demonstrates discovery thinking, process structuring, stakeholder-oriented documentation, delivery control and practical AI automation design.
+Проект показывает discovery-мышление, структурирование хаотичных процессов, работу с заинтересованными сторонами, контроль delivery, документацию и практический подход к AI-автоматизации.
