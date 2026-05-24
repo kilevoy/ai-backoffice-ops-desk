@@ -165,6 +165,7 @@ function App() {
 
   return (
     <div className="app-shell">
+      <a className="skip-link" href="#main-content">Перейти к содержанию</a>
       <aside className="sidebar">
         <div className="brand">
           <div className="brand-icon"><ShieldCheck size={24} /></div>
@@ -177,7 +178,13 @@ function App() {
           {navItems.map((item) => {
             const Icon = item.icon;
             return (
-              <button key={item.id} className={section === item.id ? 'nav-item active' : 'nav-item'} onClick={() => setSection(item.id)}>
+              <button
+                key={item.id}
+                className={section === item.id ? 'nav-item active' : 'nav-item'}
+                onClick={() => setSection(item.id)}
+                aria-current={section === item.id ? 'page' : undefined}
+                aria-label={`Открыть раздел ${item.label}`}
+              >
                 <Icon size={18} />
                 {item.label}
               </button>
@@ -190,7 +197,7 @@ function App() {
         </div>
       </aside>
 
-      <main className="main">
+      <main className="main" id="main-content">
         <header className="hero">
           <div>
             <p className="eyebrow">Legal / Finance Automation Portfolio Demo</p>
@@ -329,25 +336,62 @@ function Jira() {
 function Sla() {
   return (
     <div className="charts-grid">
-      <Card><h2>Requests by status</h2><ResponsiveContainer width="100%" height={260}><BarChart data={statusData}><CartesianGrid strokeDasharray="3 3" /><XAxis dataKey="name" /><YAxis /><Tooltip /><Bar dataKey="value" radius={[10, 10, 0, 0]} /></BarChart></ResponsiveContainer></Card>
-      <Card><h2>Requests by department</h2><ResponsiveContainer width="100%" height={260}><PieChart><Pie data={departmentData} dataKey="value" nameKey="name" outerRadius={90} label>{departmentData.map((_, index) => <Cell key={index} />)}</Pie><Tooltip /></PieChart></ResponsiveContainer></Card>
-      <Card><h2>SLA breaches</h2><ResponsiveContainer width="100%" height={260}><AreaChart data={slaData}><CartesianGrid strokeDasharray="3 3" /><XAxis dataKey="day" /><YAxis /><Tooltip /><Area type="monotone" dataKey="total" fillOpacity={0.2} /><Area type="monotone" dataKey="breached" fillOpacity={0.35} /></AreaChart></ResponsiveContainer></Card>
-      <Card><h2>Risk distribution</h2><ResponsiveContainer width="100%" height={260}><BarChart data={riskData}><CartesianGrid strokeDasharray="3 3" /><XAxis dataKey="name" /><YAxis /><Tooltip /><Bar dataKey="value" radius={[10, 10, 0, 0]} /></BarChart></ResponsiveContainer></Card>
+      <Card><h2>Requests by status</h2><div className="chart-frame" role="img" aria-label="Bar chart showing requests by status: New, In review, Waiting, Overdue and Done"><ResponsiveContainer width="100%" height={260}><BarChart data={statusData}><CartesianGrid strokeDasharray="3 3" /><XAxis dataKey="name" /><YAxis /><Tooltip /><Bar dataKey="value" radius={[10, 10, 0, 0]} /></BarChart></ResponsiveContainer></div></Card>
+      <Card><h2>Requests by department</h2><div className="chart-frame" role="img" aria-label="Pie chart showing Legal and Finance request distribution"><ResponsiveContainer width="100%" height={260}><PieChart><Pie data={departmentData} dataKey="value" nameKey="name" outerRadius={90} label>{departmentData.map((_, index) => <Cell key={index} />)}</Pie><Tooltip /></PieChart></ResponsiveContainer></div></Card>
+      <Card><h2>SLA breaches</h2><div className="chart-frame" role="img" aria-label="Area chart showing total requests and SLA breaches by weekday"><ResponsiveContainer width="100%" height={260}><AreaChart data={slaData}><CartesianGrid strokeDasharray="3 3" /><XAxis dataKey="day" /><YAxis /><Tooltip /><Area type="monotone" dataKey="total" fillOpacity={0.2} /><Area type="monotone" dataKey="breached" fillOpacity={0.35} /></AreaChart></ResponsiveContainer></div></Card>
+<Card><h2>Risk distribution</h2><div className="chart-frame" role="img" aria-label="Bar chart showing request risk distribution: Low, Medium, High and Critical"><ResponsiveContainer width="100%" height={260}><BarChart data={riskData}><CartesianGrid strokeDasharray="3 3" /><XAxis dataKey="name" /><YAxis /><Tooltip /><Bar dataKey="value" radius={[10, 10, 0, 0]} /></BarChart></ResponsiveContainer></div></Card>
     </div>
   );
 }
 
 function Summary() {
+  const summaryCards = [
+    { label: 'New requests', value: '9', detail: '6 Legal / 3 Finance' },
+    { label: 'SLA breaches', value: '3', detail: 'нужна эскалация сегодня' },
+    { label: 'High-risk items', value: '3', detail: 'договор, претензия, срочная оплата' },
+    { label: 'Blockers', value: '2', detail: 'нет данных от инициаторов' },
+  ];
+
+  const escalations = [
+    'LEGAL-124: запросить контрагента, сторону пользователя и бизнес-владельца',
+    'FIN-087: согласовать бюджетную статью и основание срочной оплаты',
+    'LEGAL-131: вынести high-risk договор на daily standup',
+  ];
+
   return (
-    <Card>
-      <h2>Daily AI Summary</h2>
-      <div className="summary-box">
-        <p><strong>Сегодня создано 9 новых заявок:</strong> 6 Legal и 3 Finance. Основной поток — договоры поставки, подряд и срочные оплаты.</p>
-        <p><strong>3 заявки нарушают SLA:</strong> две ожидают данные от инициаторов, одна требует решения руководителя Legal.</p>
-        <p><strong>High-risk items:</strong> договор подряда на 1 200 000 ₽, претензия с коротким сроком ответа, срочная оплата без бюджетной статьи.</p>
-        <p><strong>Recommended escalations:</strong> запросить недостающие поля по LEGAL-124, согласовать ownership по FIN-087, вынести critical contract на ежедневный standup.</p>
+    <div className="section-grid">
+      <Card>
+        <h2>Daily AI Summary</h2>
+        <p className="muted">Управленческая сводка для Legal/Finance Ops lead: что пришло, где риск, что зависло и что надо эскалировать сегодня.</p>
+        <div className="summary-grid">
+          {summaryCards.map((item) => (
+            <div className="summary-card" key={item.label}>
+              <span>{item.label}</span>
+              <strong>{item.value}</strong>
+              <p>{item.detail}</p>
+            </div>
+          ))}
+        </div>
+      </Card>
+
+      <div className="two-col">
+        <Card>
+          <h2>Recommended escalations</h2>
+          <ul className="check-list">
+            {escalations.map((item) => <li key={item}>{item}</li>)}
+          </ul>
+        </Card>
+
+        <Card>
+          <h2>Manager brief</h2>
+          <div className="summary-box">
+            <p><strong>Сегодня создано 9 новых заявок:</strong> основной поток — договоры поставки, подряд и срочные оплаты.</p>
+            <p><strong>3 заявки нарушают SLA:</strong> две ожидают данные от инициаторов, одна требует решения руководителя Legal.</p>
+            <p><strong>Фокус дня:</strong> закрыть недостающие поля, подтвердить владельцев задач и вынести high-risk договор на короткую синхронизацию.</p>
+          </div>
+        </Card>
       </div>
-    </Card>
+    </div>
   );
 }
 
