@@ -1,43 +1,43 @@
-# Security Notes
+# Безопасность
 
-## Public demo rules
+## Правила публичного демо
 
-- Do not use real contracts.
-- Do not use real company names.
-- Do not use real personal data.
-- Do not commit tokens, API keys or webhook URLs.
-- Use synthetic data only.
+- Не использовать реальные договоры.
+- Не использовать реальные названия компаний.
+- Не использовать реальные персональные данные.
+- Не коммитить токены, API-ключи и webhook URL.
+- Использовать только синтетические данные.
 
-## Secrets handling
+## Хранение секретов
 
-For production, keep secrets in:
+В production-среде секреты нужно хранить в:
 
-- n8n credentials;
+- credentials n8n;
 - GitHub Actions secrets;
 - cloud secrets manager;
-- environment variables outside the repository.
+- переменных окружения вне репозитория.
 
-## AI legal disclaimer
+## Дисклеймер по AI-анализу договоров
 
-AI-generated contract analysis is a preliminary assistant output. It can help triage and highlight risks, but it is not a final legal opinion.
+AI-анализ договора — это предварительный результат помощника. Он может помочь с triage и подсветить риски, но не является финальным юридическим заключением.
 
-## Access control
+## Контроль доступа
 
-Production implementation should define:
+Production-реализация должна определить:
 
-- who can submit requests;
-- who can see Legal documents;
-- who can access Finance requests;
-- who can receive summaries;
-- who can override SLA and priority.
+- кто может создавать заявки;
+- кто видит юридические документы;
+- кто видит финансовые заявки;
+- кто получает управленческие сводки;
+- кто может менять SLA и приоритет.
 
-## Data retention
+## Хранение данных
 
-Define how long to store:
+Нужно заранее определить срок хранения:
 
-- uploaded documents;
-- extracted text;
-- AI prompts and outputs;
-- Jira links;
-- Slack thread history;
+- загруженных документов;
+- извлечённого текста;
+- AI-prompts и AI-outputs;
+- ссылок на Jira-задачи;
+- истории Slack-thread;
 - audit logs.
