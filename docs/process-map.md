@@ -1,43 +1,43 @@
-# Process Map
+# Карта процесса
 
 ```text
-Slack request
+Заявка в Slack
   ↓
-Optional n8n / Apps Script / backend layer
+Опциональный слой n8n / Apps Script / backend
   ↓
-Normalize message and attachments
+Нормализация сообщения и вложений
   ↓
-AI classification
+AI-классификация
   ↓
-Missing data check
+Проверка недостающих данных
   ↓
-Contract risk audit, if request type is contract
+Риск-аудит договора, если тип заявки — договор
   ↓
-Priority and SLA calculation
+Расчёт приоритета и SLA
   ↓
-Jira issue creation
+Создание Jira-задачи
   ↓
-Google Sheets / database register
+Запись в Google Sheets / базу данных
   ↓
-Slack reply to requester
+Ответ инициатору в Slack
   ↓
-Scheduled SLA checks
+Плановые проверки SLA
   ↓
-Daily summary to Legal/Finance Ops lead
+Дневная сводка для Legal/Finance Ops lead
 ```
 
-## Status logic
+## Логика статусов
 
-- `New` — request received.
-- `Waiting for requester` — required fields are missing.
-- `In review` — Legal/Finance team is processing.
-- `Escalated` — high risk or SLA breach.
-- `Done` — request completed.
+- `Новая` — заявка получена.
+- `Ожидает инициатора` — не хватает обязательных данных.
+- `В работе` — юридическая или финансовая команда обрабатывает заявку.
+- `Эскалирована` — высокий риск или нарушение SLA.
+- `Закрыта` — заявка выполнена.
 
-## SLA logic
+## Логика SLA
 
-- Critical signing deadline: 1 business day.
-- Contract amount above threshold: 2 business days.
-- Standard NDA: 3 business days.
-- General request: 5 business days.
-- Missing required data pauses SLA until requester answers.
+- Критический срок подписания: 1 рабочий день.
+- Сумма договора выше порога: 2 рабочих дня.
+- Стандартная NDA-проверка: 3 рабочих дня.
+- Обычная заявка: 5 рабочих дней.
+- Если не хватает обязательных данных, SLA ставится на паузу до ответа инициатора.
