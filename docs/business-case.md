@@ -1,42 +1,42 @@
-# Business Case
+# Бизнес-кейс
 
-## Target users
+## Целевые пользователи
 
-- Legal Operations specialists
-- Finance Operations teams
-- Internal automation project managers
-- Business stakeholders who submit requests
-- Team leads responsible for SLA and delivery control
+- специалисты Legal Operations;
+- финансовые операционные команды;
+- менеджеры проектов внутренней автоматизации;
+- бизнес-заказчики, которые отправляют заявки;
+- руководители команд, отвечающие за SLA и delivery.
 
-## Pain points
+## Боли процесса
 
-1. Requests arrive through many channels and are hard to track.
-2. Initial messages are often incomplete.
-3. Legal and Finance teams spend time clarifying basic fields.
-4. Jira tasks are created manually and inconsistently.
-5. SLA breaches are discovered too late.
-6. Knowledge about process rules lives in people’s heads.
+1. Заявки приходят через разные каналы и плохо отслеживаются.
+2. Первичные сообщения часто неполные.
+3. Юристы и финансисты тратят время на уточнение базовых полей.
+4. Jira-задачи создаются вручную и не по единому стандарту.
+5. Нарушения SLA обнаруживаются слишком поздно.
+6. Знание правил процесса хранится у отдельных людей, а не в системе.
 
-## Proposed solution
+## Предлагаемое решение
 
-AI Backoffice Ops Desk creates a structured intake layer:
+AI Backoffice Ops Desk создаёт структурированный intake-слой:
 
-- one request entry point;
-- AI classification and field extraction;
-- missing data checklist;
-- contract risk-audit scenario;
-- mock Jira delivery workflow;
-- SLA control and daily summary.
+- единая точка входа для заявок;
+- AI-классификация и извлечение полей;
+- чек-лист недостающих данных;
+- сценарий риск-аудита договора;
+- mock Jira workflow;
+- SLA-контроль и дневная сводка.
 
-## Expected impact
+## Ожидаемый эффект
 
-- fewer incomplete requests reaching Legal/Finance;
-- faster triage;
-- better visibility for managers;
-- reduced dependency on individual knowledge holders;
-- more consistent documentation and task descriptions;
-- clearer escalation process.
+- меньше неполных заявок попадает в Legal/Finance;
+- быстрее triage и первичная маршрутизация;
+- выше прозрачность для руководителей;
+- ниже зависимость от отдельных носителей знаний;
+- единый стандарт описания задач и чек-листов;
+- понятный процесс эскалации.
 
-## Why this is relevant for Legal/Finance automation roles
+## Почему кейс релевантен для ролей Legal/Finance automation
 
-The project demonstrates process discovery, stakeholder logic, delivery thinking, low-code/no-code architecture options, documentation discipline and practical AI automation design.
+Проект показывает discovery-мышление, stakeholder logic, delivery-подход, варианты low-code/no-code архитектуры, дисциплину документации и практический сценарий AI-автоматизации внутренних процессов.
