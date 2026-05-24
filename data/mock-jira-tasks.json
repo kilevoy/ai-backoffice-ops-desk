@@ -1,0 +1,20 @@
+[
+  {
+    "key": "LEGAL-124",
+    "title": "Проверка договора подряда на 1 200 000 ₽",
+    "priority": "High",
+    "status": "Waiting for requester",
+    "assignee": "Legal Team",
+    "sla": "2 business days",
+    "labels": ["contract-review", "high-risk", "sla-2d"]
+  },
+  {
+    "key": "FIN-087",
+    "title": "Проверка основания срочной оплаты",
+    "priority": "High",
+    "status": "Waiting for finance approval",
+    "assignee": "Finance Team",
+    "sla": "1 business day",
+    "labels": ["payment-approval", "urgent", "missing-budget-code"]
+  }
+]
