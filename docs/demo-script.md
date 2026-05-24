@@ -1,25 +1,25 @@
-# 3-Minute Demo Script
+# Сценарий 3-минутной демонстрации
 
-## 0:00–0:30 — Problem
+## 0:00–0:30 — Проблема
 
-Legal and Finance teams receive many internal requests in a chaotic way. Messages are incomplete, deadlines are unclear, and tasks are often created manually. The result is slow triage, missed SLA and poor visibility.
+Юридические и финансовые команды получают много внутренних заявок в хаотичном виде. Сообщения неполные, сроки неочевидны, задачи часто создаются вручную. Итог — медленный triage, пропущенные SLA и слабая прозрачность для руководителя.
 
-## 0:30–1:15 — Intake
+## 0:30–1:15 — Приём заявки
 
-Open the Slack Intake Simulator. Select the contract review scenario. Show how a free-form Slack message is converted into a structured request with department, request type, priority, SLA and missing fields.
+Откройте раздел «Приём заявок». Выберите сценарий проверки договора. Покажите, как свободное сообщение из Slack превращается в структурированную заявку: подразделение, тип, приоритет, SLA и недостающие поля.
 
-## 1:15–1:45 — AI parsing and risk audit
+## 1:15–1:45 — AI-разбор и риск-аудит
 
-Open AI Request Parser and Contract Risk Audit. Explain that the system extracts fields, identifies risk factors and produces a preliminary contract risk memo.
+Откройте «AI-разбор» и «Риск-аудит». Объясните, что система извлекает поля из сообщения, определяет факторы риска и формирует предварительную записку по рискам договора.
 
-## 1:45–2:20 — Jira delivery
+## 1:45–2:20 — Delivery через Jira
 
-Open Jira Task Preview. Show the generated task, labels, checklist and SLA. Explain that this reduces dependency on individual knowledge holders and creates repeatable delivery.
+Откройте «Jira-задача». Покажите сгенерированную задачу, метки, чек-лист и SLA. Объясните, что такой подход снижает зависимость от отдельных носителей знаний и создаёт повторяемый процесс delivery.
 
-## 2:20–3:00 — SLA and summary
+## 2:20–3:00 — SLA и управленческая сводка
 
-Open SLA Dashboard and Daily Summary. Show how the manager sees overdue requests, high-risk contracts and recommended escalations.
+Откройте «SLA-панель» и «Дневная сводка». Покажите, как руководитель видит просроченные заявки, договоры с высоким риском и рекомендуемые эскалации.
 
-## Closing
+## Финал
 
-This is a public-safe static MVP. The same process can be connected to real Slack, Jira, Google Sheets and AI APIs through n8n, Apps Script or a custom backend.
+Это публичное статическое MVP без реальных данных. Такой же процесс можно подключить к реальным Slack, Jira, Google Sheets и AI API через n8n, Apps Script или собственный backend.
