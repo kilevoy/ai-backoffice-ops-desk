@@ -8,7 +8,7 @@ type SectionId = 'overview' | 'intake' | 'parser' | 'audit' | 'jira' | 'sla' | '
 type Scenario = {
   id: ScenarioId;
   title: string;
-  department: 'Legal' | 'Finance';
+  department: string;
   requestType: string;
   employeeMessage: string;
   botResponse: string;
@@ -16,7 +16,7 @@ type Scenario = {
   amount: string;
   deadline: string;
   counterparty: string;
-  priority: 'Critical' | 'High' | 'Medium';
+  priority: string;
   status: string;
   sla: string;
   missingFields: string[];
@@ -27,19 +27,19 @@ type Scenario = {
 const scenarios: Scenario[] = [
   {
     id: 'contract',
-    title: 'Legal contract review',
-    department: 'Legal',
+    title: 'Проверка договора',
+    department: 'Юридический блок',
     requestType: 'Договор подряда',
     employeeMessage:
       '/legal Нужно проверить договор с подрядчиком. Сумма 1 200 000 ₽. Срок подписания до пятницы. Есть штрафы и постоплата. Файл договора прикрепил.',
     botResponse:
-      'Заявка принята. Тип: Legal / договор подряда. Приоритет: High. SLA: 2 рабочих дня. Риск: высокий. Не хватает: контрагент, бизнес-владелец, сторона пользователя.',
+      'Заявка принята. Тип: юридическая проверка договора подряда. Приоритет: высокий. SLA: 2 рабочих дня. Риск: высокий. Не хватает: контрагент, бизнес-владелец, сторона пользователя.',
     requester: 'Мария Соколова',
     amount: '1 200 000 ₽',
     deadline: 'Пятница, 18:00',
     counterparty: 'Не указан',
-    priority: 'High',
-    status: 'Waiting for requester',
+    priority: 'Высокий',
+    status: 'Ожидает инициатора',
     sla: '2 рабочих дня',
     missingFields: ['Контрагент', 'Бизнес-владелец', 'Сторона пользователя'],
     riskFactors: ['Штрафы', 'Постоплата', 'Короткий срок', 'Сумма > 1 млн ₽'],
@@ -47,19 +47,19 @@ const scenarios: Scenario[] = [
   },
   {
     id: 'payment',
-    title: 'Finance payment approval',
-    department: 'Finance',
+    title: 'Согласование оплаты',
+    department: 'Финансы',
     requestType: 'Согласование оплаты',
     employeeMessage:
       '/finance Нужно срочно оплатить счет поставщика за сервисы. Сумма 480 000 ₽, желательно сегодня, договор был ранее.',
     botResponse:
-      'Заявка принята. Тип: Finance / payment approval. Приоритет: High. Не хватает: номер счета, бюджетная статья, подтверждение договора и ответственный согласующий.',
+      'Заявка принята. Тип: финансовое согласование оплаты. Приоритет: высокий. Не хватает: номер счета, бюджетная статья, подтверждение договора и ответственный согласующий.',
     requester: 'Илья Морозов',
     amount: '480 000 ₽',
     deadline: 'Сегодня',
     counterparty: 'Поставщик сервисов',
-    priority: 'High',
-    status: 'Waiting for finance approval',
+    priority: 'Высокий',
+    status: 'Ожидает согласования финансов',
     sla: '1 рабочий день',
     missingFields: ['Номер счета', 'Бюджетная статья', 'Согласующий', 'Ссылка на договор'],
     riskFactors: ['Срочная оплата', 'Нет номера счета', 'Нет бюджетной статьи'],
@@ -67,23 +67,23 @@ const scenarios: Scenario[] = [
   },
   {
     id: 'nda',
-    title: 'NDA review',
-    department: 'Legal',
-    requestType: 'NDA review',
+    title: 'Проверка NDA',
+    department: 'Юридический блок',
+    requestType: 'Проверка NDA',
     employeeMessage:
       '/legal Проверьте NDA перед переговорами с потенциальным партнером. Встреча завтра утром, файл приложен.',
     botResponse:
-      'Заявка принята. Тип: Legal / NDA. Приоритет: Medium. Не хватает: название контрагента, цель переговоров и срок действия NDA.',
+      'Заявка принята. Тип: юридическая проверка NDA. Приоритет: средний. Не хватает: название контрагента, цель переговоров и срок действия NDA.',
     requester: 'Антон Волков',
     amount: 'Не применимо',
     deadline: 'Завтра утром',
     counterparty: 'Потенциальный партнер',
-    priority: 'Medium',
-    status: 'In legal review',
+    priority: 'Средний',
+    status: 'В юридической проверке',
     sla: '3 рабочих дня',
     missingFields: ['Название контрагента', 'Цель переговоров', 'Срок действия NDA'],
     riskFactors: ['Короткий срок', 'Конфиденциальная информация', 'Нет цели раскрытия'],
-    nextAction: 'Передать в Legal review по ускоренному NDA-checklist',
+    nextAction: 'Передать в юридическую проверку по ускоренному NDA-чек-листу',
   },
 ];
 
@@ -104,50 +104,50 @@ const audit = {
 const jiraTask = {
   key: 'LEGAL-124',
   title: 'Проверка договора подряда на 1 200 000 ₽',
-  priority: 'High',
-  status: 'Waiting for requester',
-  assignee: 'Legal Team',
+  priority: 'Высокий',
+  status: 'Ожидает инициатора',
+  assignee: 'Юридическая команда',
   sla: '2 рабочих дня',
-  labels: ['contract-review', 'high-risk', 'sla-2d', 'vendor-contract'],
+  labels: ['проверка-договора', 'высокий-риск', 'sla-2d', 'договор-с-поставщиком'],
   checklist: ['Получить данные контрагента', 'Уточнить сторону пользователя', 'Проверить платежный график', 'Подготовить протокол разногласий', 'Вернуть summary инициатору'],
 };
 
 const statusData = [
-  { name: 'New', value: 8 },
-  { name: 'In review', value: 14 },
-  { name: 'Waiting', value: 6 },
-  { name: 'Overdue', value: 3 },
-  { name: 'Done', value: 19 },
+  { name: 'Новые', value: 8 },
+  { name: 'В работе', value: 14 },
+  { name: 'Ожидают', value: 6 },
+  { name: 'Просрочены', value: 3 },
+  { name: 'Закрыты', value: 19 },
 ];
 
 const departmentData = [
-  { name: 'Legal', value: 31 },
-  { name: 'Finance', value: 19 },
+  { name: 'Юристы', value: 31 },
+  { name: 'Финансы', value: 19 },
 ];
 
 const slaData = [
-  { day: 'Mon', breached: 1, total: 9 },
-  { day: 'Tue', breached: 2, total: 11 },
-  { day: 'Wed', breached: 1, total: 8 },
-  { day: 'Thu', breached: 3, total: 13 },
-  { day: 'Fri', breached: 2, total: 9 },
+  { day: 'Пн', breached: 1, total: 9 },
+  { day: 'Вт', breached: 2, total: 11 },
+  { day: 'Ср', breached: 1, total: 8 },
+  { day: 'Чт', breached: 3, total: 13 },
+  { day: 'Пт', breached: 2, total: 9 },
 ];
 
 const riskData = [
-  { name: 'Low', value: 12 },
-  { name: 'Medium', value: 21 },
-  { name: 'High', value: 14 },
-  { name: 'Critical', value: 3 },
+  { name: 'Низкий', value: 12 },
+  { name: 'Средний', value: 21 },
+  { name: 'Высокий', value: 14 },
+  { name: 'Критический', value: 3 },
 ];
 
 const navItems: { id: SectionId; label: string; icon: React.ElementType }[] = [
-  { id: 'overview', label: 'Overview', icon: LayoutDashboard },
-  { id: 'intake', label: 'Slack Intake', icon: MessageSquareText },
-  { id: 'parser', label: 'AI Parser', icon: Sparkles },
-  { id: 'audit', label: 'Risk Audit', icon: FileWarning },
-  { id: 'jira', label: 'Jira Task', icon: ListChecks },
-  { id: 'sla', label: 'SLA Dashboard', icon: Clock3 },
-  { id: 'summary', label: 'Daily Summary', icon: Bot },
+  { id: 'overview', label: 'Обзор', icon: LayoutDashboard },
+  { id: 'intake', label: 'Приём заявок', icon: MessageSquareText },
+  { id: 'parser', label: 'AI-разбор', icon: Sparkles },
+  { id: 'audit', label: 'Риск-аудит', icon: FileWarning },
+  { id: 'jira', label: 'Jira-задача', icon: ListChecks },
+  { id: 'sla', label: 'SLA-панель', icon: Clock3 },
+  { id: 'summary', label: 'Дневная сводка', icon: Bot },
 ];
 
 function Badge({ children, tone = 'neutral' }: { children: React.ReactNode; tone?: 'neutral' | 'green' | 'amber' | 'red' | 'blue' }) {
@@ -174,7 +174,7 @@ function App() {
             <span>Ops Desk</span>
           </div>
         </div>
-        <nav className="nav">
+        <nav className="nav" aria-label="Основные разделы демо">
           {navItems.map((item) => {
             const Icon = item.icon;
             return (
@@ -183,7 +183,7 @@ function App() {
                 className={section === item.id ? 'nav-item active' : 'nav-item'}
                 onClick={() => setSection(item.id)}
                 aria-current={section === item.id ? 'page' : undefined}
-                aria-label={`Открыть раздел ${item.label}`}
+                aria-label={`Открыть раздел: ${item.label}`}
               >
                 <Icon size={18} />
                 {item.label}
@@ -192,21 +192,21 @@ function App() {
           })}
         </nav>
         <div className="sidebar-note">
-          <Badge tone="blue">Static MVP</Badge>
-          <p>Public-safe demo: synthetic data, mock Jira, no real tokens.</p>
+          <Badge tone="blue">Статический MVP</Badge>
+          <p>Публичное демо: синтетические данные, mock Jira, без реальных токенов.</p>
         </div>
       </aside>
 
       <main className="main" id="main-content">
         <header className="hero">
           <div>
-            <p className="eyebrow">Legal / Finance Automation Portfolio Demo</p>
+            <p className="eyebrow">Демо для автоматизации Legal / Finance процессов</p>
             <h1>AI Backoffice Ops Desk</h1>
-            <p className="hero-text">Transforms chaotic Legal/Finance requests into structured Jira tasks with SLA control and AI summaries.</p>
+            <p className="hero-text">Превращает хаотичные заявки в юридический и финансовый блоки в структурированные Jira-задачи с SLA-контролем и AI-сводками.</p>
           </div>
           <div className="hero-actions">
             <Badge tone="green">React + TypeScript</Badge>
-            <Badge tone="amber">n8n optional</Badge>
+            <Badge tone="amber">n8n опционально</Badge>
           </div>
         </header>
 
@@ -224,11 +224,11 @@ function App() {
 
 function Overview() {
   const kpis = [
-    { label: 'Total requests', value: '50', detail: 'за текущую неделю', icon: BriefcaseBusiness },
-    { label: 'High-risk contracts', value: '14', detail: 'требуют Legal escalation', icon: AlertTriangle },
-    { label: 'Overdue SLA', value: '3', detail: 'нужна эскалация', icon: Clock3 },
-    { label: 'Waiting for requester', value: '6', detail: 'не хватает данных', icon: MessageSquareText },
-    { label: 'Average handling time', value: '1.8d', detail: 'после внедрения intake', icon: CheckCircle2 },
+    { label: 'Всего заявок', value: '50', detail: 'за текущую неделю', icon: BriefcaseBusiness },
+    { label: 'Договоры с высоким риском', value: '14', detail: 'требуют эскалации юристам', icon: AlertTriangle },
+    { label: 'Просроченные SLA', value: '3', detail: 'нужна эскалация сегодня', icon: Clock3 },
+    { label: 'Ожидают инициатора', value: '6', detail: 'не хватает данных', icon: MessageSquareText },
+    { label: 'Среднее время обработки', value: '1,8 дн.', detail: 'после внедрения intake-процесса', icon: CheckCircle2 },
   ];
 
   return (
@@ -249,7 +249,7 @@ function Overview() {
         <h2>Что показывает MVP</h2>
         <p>Проект демонстрирует не просто чат-бота, а управляемый процесс: от входящего сообщения до Jira-задачи, SLA-контроля, риск-аудита и ежедневной сводки для руководителя.</p>
         <div className="flow-line">
-          {['Slack request', 'AI parser', 'Missing data', 'Risk audit', 'Jira task', 'SLA', 'Summary'].map((step) => <span key={step}>{step}</span>)}
+          {['Заявка в Slack', 'AI-разбор', 'Недостающие данные', 'Риск-аудит', 'Jira-задача', 'SLA', 'Сводка'].map((step) => <span key={step}>{step}</span>)}
         </div>
       </Card>
     </div>
@@ -260,7 +260,7 @@ function Intake({ scenario, scenarioId, setScenarioId }: { scenario: Scenario; s
   return (
     <div className="two-col">
       <Card>
-        <h2>Slack Intake Simulator</h2>
+        <h2>Симулятор приёма заявок в Slack</h2>
         <div className="scenario-tabs">
           {scenarios.map((item) => <button key={item.id} className={scenarioId === item.id ? 'tab active' : 'tab'} onClick={() => setScenarioId(item.id)}>{item.title}</button>)}
         </div>
@@ -274,7 +274,7 @@ function Intake({ scenario, scenarioId, setScenarioId }: { scenario: Scenario; s
         <p className="muted">Следующее действие: {scenario.nextAction}</p>
         <h3>Недостающие данные</h3>
         <ul className="check-list">{scenario.missingFields.map((field) => <li key={field}>{field}</li>)}</ul>
-        <h3>Risk factors</h3>
+        <h3>Факторы риска</h3>
         <div className="tag-wrap">{scenario.riskFactors.map((risk) => <Badge key={risk} tone="amber">{risk}</Badge>)}</div>
       </Card>
     </div>
@@ -283,23 +283,23 @@ function Intake({ scenario, scenarioId, setScenarioId }: { scenario: Scenario; s
 
 function Parser({ scenario }: { scenario: Scenario }) {
   const rows = [
-    ['Department', scenario.department],
-    ['Request type', scenario.requestType],
-    ['Priority', scenario.priority],
-    ['Amount', scenario.amount],
-    ['Deadline', scenario.deadline],
-    ['Requester', scenario.requester],
-    ['Counterparty', scenario.counterparty],
+    ['Подразделение', scenario.department],
+    ['Тип заявки', scenario.requestType],
+    ['Приоритет', scenario.priority],
+    ['Сумма', scenario.amount],
+    ['Дедлайн', scenario.deadline],
+    ['Инициатор', scenario.requester],
+    ['Контрагент', scenario.counterparty],
     ['SLA', scenario.sla],
   ];
   return (
     <Card>
-      <h2>AI Request Parser</h2>
+      <h2>AI-разбор заявки</h2>
       <p className="muted">AI превращает свободный текст в структурированную карточку заявки.</p>
       <div className="parser-table">{rows.map(([key, value]) => <div key={key}><span>{key}</span><strong>{value}</strong></div>)}</div>
       <div className="split-block">
-        <div><h3>Missing fields</h3><ul className="check-list">{scenario.missingFields.map((field) => <li key={field}>{field}</li>)}</ul></div>
-        <div><h3>Risk factors</h3><div className="tag-wrap">{scenario.riskFactors.map((risk) => <Badge key={risk} tone="red">{risk}</Badge>)}</div></div>
+        <div><h3>Недостающие данные</h3><ul className="check-list">{scenario.missingFields.map((field) => <li key={field}>{field}</li>)}</ul></div>
+        <div><h3>Факторы риска</h3><div className="tag-wrap">{scenario.riskFactors.map((risk) => <Badge key={risk} tone="red">{risk}</Badge>)}</div></div>
       </div>
     </Card>
   );
@@ -309,14 +309,14 @@ function Audit() {
   return (
     <div className="two-col">
       <Card>
-        <h2>Contract Risk Audit</h2>
+        <h2>Риск-аудит договора</h2>
         <div className="risk-score"><span>{audit.score}/10</span><p>Высокий риск</p></div>
-        <div className="parser-table compact"><div><span>Contract type</span><strong>{audit.contractType}</strong></div><div><span>User side</span><strong>{audit.userSide}</strong></div><div><span>Recommendation</span><strong>{audit.recommendation}</strong></div></div>
+        <div className="parser-table compact"><div><span>Тип договора</span><strong>{audit.contractType}</strong></div><div><span>Сторона пользователя</span><strong>{audit.userSide}</strong></div><div><span>Рекомендация</span><strong>{audit.recommendation}</strong></div></div>
         <ul className="risk-list">{audit.risks.map((risk) => <li key={risk}>{risk}</li>)}</ul>
       </Card>
       <Card>
-        <h2>Markdown report preview</h2>
-        <pre className="report-preview">{`# Contract Risk Audit\n\nСторона: Подрядчик\nРиск: 9/10\n\n## Рекомендация\nНе подписывать без протокола разногласий.\n\n## Критические риски\n- платежный график требует уточнения;\n- штрафы и ответственность не ограничены;\n- порядок приемки работ не детализирован;\n- есть риск блокировки оплаты.\n\n## Next action\nСоздать Jira-задачу и запросить недостающие данные у инициатора.`}</pre>
+        <h2>Предпросмотр Markdown-отчёта</h2>
+        <pre className="report-preview">{`# Риск-аудит договора\n\nСторона: Подрядчик\nРиск: 9/10\n\n## Рекомендация\nНе подписывать без протокола разногласий.\n\n## Критические риски\n- платежный график требует уточнения;\n- штрафы и ответственность не ограничены;\n- порядок приемки работ не детализирован;\n- есть риск блокировки оплаты.\n\n## Следующее действие\nСоздать Jira-задачу и запросить недостающие данные у инициатора.`}</pre>
       </Card>
     </div>
   );
@@ -326,9 +326,9 @@ function Jira() {
   return (
     <Card>
       <div className="jira-header"><div><h2>{jiraTask.key}</h2><p>{jiraTask.title}</p></div><Badge tone="amber">{jiraTask.priority}</Badge></div>
-      <div className="parser-table compact"><div><span>Status</span><strong>{jiraTask.status}</strong></div><div><span>Assignee</span><strong>{jiraTask.assignee}</strong></div><div><span>SLA</span><strong>{jiraTask.sla}</strong></div></div>
-      <h3>Labels</h3><div className="tag-wrap">{jiraTask.labels.map((label) => <Badge key={label} tone="blue">{label}</Badge>)}</div>
-      <h3>Checklist</h3><ul className="check-list two-columns">{jiraTask.checklist.map((item) => <li key={item}>{item}</li>)}</ul>
+      <div className="parser-table compact"><div><span>Статус</span><strong>{jiraTask.status}</strong></div><div><span>Ответственный</span><strong>{jiraTask.assignee}</strong></div><div><span>SLA</span><strong>{jiraTask.sla}</strong></div></div>
+      <h3>Метки</h3><div className="tag-wrap">{jiraTask.labels.map((label) => <Badge key={label} tone="blue">{label}</Badge>)}</div>
+      <h3>Чек-лист</h3><ul className="check-list two-columns">{jiraTask.checklist.map((item) => <li key={item}>{item}</li>)}</ul>
     </Card>
   );
 }
@@ -336,33 +336,33 @@ function Jira() {
 function Sla() {
   return (
     <div className="charts-grid">
-      <Card><h2>Requests by status</h2><div className="chart-frame" role="img" aria-label="Bar chart showing requests by status: New, In review, Waiting, Overdue and Done"><ResponsiveContainer width="100%" height={260}><BarChart data={statusData}><CartesianGrid strokeDasharray="3 3" /><XAxis dataKey="name" /><YAxis /><Tooltip /><Bar dataKey="value" radius={[10, 10, 0, 0]} /></BarChart></ResponsiveContainer></div></Card>
-      <Card><h2>Requests by department</h2><div className="chart-frame" role="img" aria-label="Pie chart showing Legal and Finance request distribution"><ResponsiveContainer width="100%" height={260}><PieChart><Pie data={departmentData} dataKey="value" nameKey="name" outerRadius={90} label>{departmentData.map((_, index) => <Cell key={index} />)}</Pie><Tooltip /></PieChart></ResponsiveContainer></div></Card>
-      <Card><h2>SLA breaches</h2><div className="chart-frame" role="img" aria-label="Area chart showing total requests and SLA breaches by weekday"><ResponsiveContainer width="100%" height={260}><AreaChart data={slaData}><CartesianGrid strokeDasharray="3 3" /><XAxis dataKey="day" /><YAxis /><Tooltip /><Area type="monotone" dataKey="total" fillOpacity={0.2} /><Area type="monotone" dataKey="breached" fillOpacity={0.35} /></AreaChart></ResponsiveContainer></div></Card>
-<Card><h2>Risk distribution</h2><div className="chart-frame" role="img" aria-label="Bar chart showing request risk distribution: Low, Medium, High and Critical"><ResponsiveContainer width="100%" height={260}><BarChart data={riskData}><CartesianGrid strokeDasharray="3 3" /><XAxis dataKey="name" /><YAxis /><Tooltip /><Bar dataKey="value" radius={[10, 10, 0, 0]} /></BarChart></ResponsiveContainer></div></Card>
+      <Card><h2>Заявки по статусам</h2><div className="chart-frame" role="img" aria-label="Столбчатая диаграмма заявок по статусам: новые, в работе, ожидают, просрочены и закрыты"><ResponsiveContainer width="100%" height={260}><BarChart data={statusData}><CartesianGrid strokeDasharray="3 3" /><XAxis dataKey="name" /><YAxis /><Tooltip /><Bar dataKey="value" radius={[10, 10, 0, 0]} /></BarChart></ResponsiveContainer></div></Card>
+      <Card><h2>Заявки по подразделениям</h2><div className="chart-frame" role="img" aria-label="Круговая диаграмма распределения заявок между юридическим блоком и финансами"><ResponsiveContainer width="100%" height={260}><PieChart><Pie data={departmentData} dataKey="value" nameKey="name" outerRadius={90} label>{departmentData.map((_, index) => <Cell key={index} />)}</Pie><Tooltip /></PieChart></ResponsiveContainer></div></Card>
+      <Card><h2>Нарушения SLA</h2><div className="chart-frame" role="img" aria-label="График общего количества заявок и нарушений SLA по дням недели"><ResponsiveContainer width="100%" height={260}><AreaChart data={slaData}><CartesianGrid strokeDasharray="3 3" /><XAxis dataKey="day" /><YAxis /><Tooltip /><Area type="monotone" dataKey="total" fillOpacity={0.2} /><Area type="monotone" dataKey="breached" fillOpacity={0.35} /></AreaChart></ResponsiveContainer></div></Card>
+      <Card><h2>Распределение рисков</h2><div className="chart-frame" role="img" aria-label="Столбчатая диаграмма распределения заявок по уровню риска: низкий, средний, высокий и критический"><ResponsiveContainer width="100%" height={260}><BarChart data={riskData}><CartesianGrid strokeDasharray="3 3" /><XAxis dataKey="name" /><YAxis /><Tooltip /><Bar dataKey="value" radius={[10, 10, 0, 0]} /></BarChart></ResponsiveContainer></div></Card>
     </div>
   );
 }
 
 function Summary() {
   const summaryCards = [
-    { label: 'New requests', value: '9', detail: '6 Legal / 3 Finance' },
-    { label: 'SLA breaches', value: '3', detail: 'нужна эскалация сегодня' },
-    { label: 'High-risk items', value: '3', detail: 'договор, претензия, срочная оплата' },
-    { label: 'Blockers', value: '2', detail: 'нет данных от инициаторов' },
+    { label: 'Новые заявки', value: '9', detail: '6 юридических / 3 финансовых' },
+    { label: 'Нарушения SLA', value: '3', detail: 'нужна эскалация сегодня' },
+    { label: 'Высокий риск', value: '3', detail: 'договор, претензия, срочная оплата' },
+    { label: 'Блокеры', value: '2', detail: 'нет данных от инициаторов' },
   ];
 
   const escalations = [
     'LEGAL-124: запросить контрагента, сторону пользователя и бизнес-владельца',
     'FIN-087: согласовать бюджетную статью и основание срочной оплаты',
-    'LEGAL-131: вынести high-risk договор на daily standup',
+    'LEGAL-131: вынести high-risk договор на ежедневную синхронизацию',
   ];
 
   return (
     <div className="section-grid">
       <Card>
-        <h2>Daily AI Summary</h2>
-        <p className="muted">Управленческая сводка для Legal/Finance Ops lead: что пришло, где риск, что зависло и что надо эскалировать сегодня.</p>
+        <h2>Дневная AI-сводка</h2>
+        <p className="muted">Управленческая сводка для руководителя Legal/Finance Ops: что пришло, где риск, что зависло и что надо эскалировать сегодня.</p>
         <div className="summary-grid">
           {summaryCards.map((item) => (
             <div className="summary-card" key={item.label}>
@@ -376,17 +376,17 @@ function Summary() {
 
       <div className="two-col">
         <Card>
-          <h2>Recommended escalations</h2>
+          <h2>Рекомендуемые эскалации</h2>
           <ul className="check-list">
             {escalations.map((item) => <li key={item}>{item}</li>)}
           </ul>
         </Card>
 
         <Card>
-          <h2>Manager brief</h2>
+          <h2>Кратко для руководителя</h2>
           <div className="summary-box">
             <p><strong>Сегодня создано 9 новых заявок:</strong> основной поток — договоры поставки, подряд и срочные оплаты.</p>
-            <p><strong>3 заявки нарушают SLA:</strong> две ожидают данные от инициаторов, одна требует решения руководителя Legal.</p>
+            <p><strong>3 заявки нарушают SLA:</strong> две ожидают данные от инициаторов, одна требует решения руководителя юридического блока.</p>
             <p><strong>Фокус дня:</strong> закрыть недостающие поля, подтвердить владельцев задач и вынести high-risk договор на короткую синхронизацию.</p>
           </div>
         </Card>
